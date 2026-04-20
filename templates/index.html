@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Analisis Sentimen</title>
+<style>
+
+body{
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+font-family:sans-serif;
+text-align:center;
+margin:0;
+}
+
+h1{
+text-shadow:0 0 10px cyan;
+margin-top:20px;
+}
+
+.container{
+width:95%;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:15px;
+margin:10px;
+border-radius:15px;
+box-shadow:0 0 10px cyan;
+backdrop-filter: blur(10px);
+}
+
+.input-card{
+width:60%;
+margin:auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap:10px;
+}
+
+img{
+width:100%;
+height:220px;
+object-fit:contain;
+border-radius:10px;
+box-shadow:0 0 10px cyan;
+}
+
+input{
+padding:10px;
+width:70%;
+border-radius:8px;
+border:none;
+outline:none;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:8px;
+background:cyan;
+cursor:pointer;
+font-weight:bold;
+margin:5px;
+}
+
+button:hover{
+background:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+}
+
+th,td{
+padding:6px;
+border:1px solid cyan;
+}
+
+th{
+background:rgba(0,255,255,0.2);
+}
+
+.history-box{
+max-height:180px;
+overflow-y:auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🤖 Analisis Sentimen</h1>
+
+<div class="container">
+
+<div class="card input-card">
+<form method="POST">
+<input type="text" name="teks" placeholder="Masukkan kalimat..." required>
+<br>
+<button type="submit">Prediksi</button>
+<a href="/hapus">
+<button type="button">Hapus History</button>
+</a>
+</form>
+
+{% if hasil %}
+<h3>Hasil : {{ hasil }}</h3>
+{% endif %}
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Bar Chart</h3>
+<img src="{{ url_for('static', filename='bar.png') }}?{{ history|length }}">
+</div>
+
+<div class="card">
+<h3>Pie Chart</h3>
+<img src="{{ url_for('static', filename='pie.png') }}?{{ history|length }}">
+</div>
+
+<div class="card">
+<h3>WordCloud</h3>
+<img src="{{ url_for('static', filename='wordcloud.png') }}?{{ history|length }}">
+</div>
+
+</div>
+
+<div class="card">
+<h3>History Prediksi</h3>
+<div class="history-box">
+<table>
+<tr>
+<th>Teks</th>
+<th>Sentimen</th>
+</tr>
+{% for item in history %}
+<tr>
+<td>{{ item[0] }}</td>
+<td>{{ item[1] }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
